@@ -1,1 +1,1 @@
-# Pokedex App with Flask
+# Pokédex App with Flask
