@@ -1,3 +1,4 @@
+/* Universal selector */
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -9,6 +10,7 @@ header {
 .text-header a { 
     text-decoration: none;
 }
+
 .text-header h2 {
     font-family: 'Moltors', sans-serif;
     color: #222222;
@@ -21,15 +23,17 @@ header {
     color: #ffffff;
 }
 
-.btn-hov:hover {
+.button:hover {
     background-color: #313131;
     color:#ffffff;
 }
 
+/* Gray border */
 .bdr-gray {
     border: 1px solid #616161 !important;
 }
 
+/* Custom width for Form*/
 .custom-width {
     width: 20rem;
 }
