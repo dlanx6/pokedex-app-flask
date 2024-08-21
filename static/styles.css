@@ -1,0 +1,31 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    background-color: #EE4B2B;
+}
+
+.text-header a { 
+    text-decoration: none;
+}
+.text-header h2 {
+    font-family: 'Moltors', sans-serif;
+    color: #222222;
+}
+
+.button {
+    border: none;
+    border-radius: 0.3rem;
+    background-color: #222222;
+    color: #ffffff;
+}
+
+.btn-hov:hover {
+    background-color: #616161;
+    color:#ffffff;
+}
+
+.bdr-gray {
+    border: 1px solid #616161;
+}
