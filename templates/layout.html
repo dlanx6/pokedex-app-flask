@@ -14,14 +14,14 @@
     <title>Pokédex | {% block title %}{% endblock %}</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <header class="d-flex p-4">
+    <header class="d-flex px-5 py-4">
         <div class="text-header">
             <a href="/">
                 <h2 class="m-0">Pokédex</h2>
             </a>
         </div>
     </header>
-    <main class="container d-flex flex-grow-1 justify-content-center">
+    <main class="container d-flex flex-column flex-grow-1 align-items-center">
         {% block main %}{% endblock %}
     </main>
     <footer class="text-center">
