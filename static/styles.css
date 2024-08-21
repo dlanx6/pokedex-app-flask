@@ -1,6 +1,9 @@
-/* Universal selector */
-* {
-    font-family: Arial, Helvetica, sans-serif;
+/* 
+    Fonts used: Moltors, Exo
+*/
+
+body {
+    font-family: "Exo", sans-serif !important;
 }
 
 header {
