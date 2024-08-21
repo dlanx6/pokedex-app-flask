@@ -4,8 +4,10 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-
 base_url = "https://pokeapi.co/api/v2/"
+
+def fetch_data(url):
+    url = ""
 
 
 @app.route("/")
