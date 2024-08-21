@@ -3,3 +3,12 @@
 {% block title %}
     Home
 {% endblock %}
+
+{% block main %}
+    <div class="mt-4 d-block">
+        <form class="d-flex flex-column gap-3">
+            <input class="bdr-gray form-control w-auto" autocomplete="off" name="pokemon" placeholder="Pokemon name or ID" type="text">
+            <button class="button btn-hov" type="submit">Search</button>
+        </form>
+    </div>
+{% endblock %}
