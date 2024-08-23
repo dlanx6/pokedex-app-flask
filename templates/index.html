@@ -6,12 +6,19 @@
 
 {% block main %}
     <div class="my-5">
-        <form class="custom-width d-flex flex-column gap-3">
+        <form class="custom-width d-flex flex-column gap-3" action='/' method="post">
             <input class="bdr-gray form-control w-auto" autocomplete="off" name="pokemon" placeholder="Pokemon name or ID" type="text">
             <button class="button p-1" type="submit">Search</button>
+            {% if get_flashed_messages() %}
+                <div class="flash-message fw-bold p-1 text-center" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+            {% endif %}   
         </form>
     </div>
-    <div>
-        <h4 class="mt-4 fw-bold">Pokémon of the Day:</h4>
+    <div class="text-center">
+        <h4 class="mt-4 mb-2 fw-bold">Random Pokémon:</h4>
+        <h6>{{ name }}</h6>
+        <p>no. {{ id }}</p>
     </div>
 {% endblock %}
