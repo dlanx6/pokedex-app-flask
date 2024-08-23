@@ -6,9 +6,10 @@ from flask_caching import Cache
 app = Flask(__name__)
 
 
+
 # Local caching
 app.config["CACHE_TYPE"] = "SimpleCache"
-app.config["CACHE_DEFAULT_TIMEOUT"] = 3600 
+app.config["CACHE_DEFAULT_TIMEOUT"] = 86400 
 cache = Cache(app)
 
 
@@ -23,27 +24,27 @@ def get_data(pokemon_name_or_id):
     else:
         # Use name to get the ID
         pokemon_name = pokemon_name_or_id.lower()
-        base_url_name_to_id = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
+        base_url_name_to_id = f"https://pokeapi.co/api/v2/pokemon-species/{pokemon_name}"
         
         try: 
             # Fetch API data
             response = requests.get(base_url_name_to_id)
             response.raise_for_status()
-            pokemon_data = response.json()
-            pokemon_id = pokemon_data["id"]
+            pokemon_data_1 = response.json()
+            pokemon_id = pokemon_data_1["id"]
                 
         except requests.exceptions.HTTPError:
             # Handle HTTP errors (e.g., 404 Not Found, 500 Internal Server Error)
-            flash("An error occurred while fetching data. Please try again later.")
-            return redirect("/error")
+            flash("Pokemon not found!")
+            return redirect("/")
                 
         except requests.exceptions.RequestException:
             # Handle other request-related errors (e.g., network issues)
             flash("A network error occurred. Please check your connection and try again.")
             return redirect("/error")
          
-        # API URL for pokemon info
-        base_url = f"https://pokeapi.co/api/v2/pokemon-species/{pokemon_id}"
+    # API URL for pokemon info
+    base_url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_id}"
     
     # Generate cache key
     pokemon_data_key = f"pokemon_{pokemon_id}"
@@ -62,8 +63,8 @@ def get_data(pokemon_name_or_id):
             
     except requests.exceptions.HTTPError:
         # Handle HTTP errors (e.g., 404 Not Found, 500 Internal Server Error)
-        flash("An error occurred while fetching data. Please try again later.")
-        return redirect("/error")
+        flash("Pokemon not found!")
+        return redirect("/")
             
     except requests.exceptions.RequestException:
         # Handle other request-related errors (e.g., network issues)
@@ -141,7 +142,7 @@ def generate_random_pokemon_id():
             return redirect("/error")
             
         # Cache the data
-        cache.set(pokemon_count_key, pokemon_count, timeout=86400)
+        cache.set(pokemon_count_key, pokemon_count)
     
     # Generate random number based on available count
     random_id = random.randint(1, pokemon_count)
@@ -169,8 +170,12 @@ def index():
             # Fetch API data
             pokemon_data = get_data(pokemon_name_or_id)
             
+            # Pokemon data
             name = pokemon_data["name"].replace("-", " ").title()
             id = pokemon_data["id"]
+                
+        except TypeError:
+            return redirect("/")
             
         except requests.exceptions.RequestException:
             flash("Pokemon not found!")
@@ -195,8 +200,12 @@ def search():
             # Fetch API data
             pokemon_data = get_data(pokemon_name_or_id)
             
+            # Pokemon data
             name = pokemon_data["name"].replace("-", " ").title()
             id = pokemon_data["id"]
+        
+        except TypeError:
+            return redirect("/")
             
         except requests.exceptions.RequestException:
             flash("Pokemon not found!")
