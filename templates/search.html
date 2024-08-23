@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ name }}
+{% endblock %}
+
+{% block main %}  
+    <div class="my-5">
+        <form class="custom-width d-flex flex-column gap-3" action='/pokemon' method="post">
+            <input class="bdr-gray form-control w-auto" autocomplete="off" name="pokemon" placeholder="Pokemon name or ID" type="text">
+            <button class="button p-1" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="text-center">
+        <h4 class="mt-4 fw-bold">{{ name }}</h4>
+        <p class="small-text">no. {{ id }}</p>
+    </div>
+{% endblock %}
