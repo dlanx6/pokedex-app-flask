@@ -17,8 +17,17 @@
         </form>
     </div>
     <div class="text-center">
-        <h4 class="mt-4 mb-2 fw-bold">Random Pokémon:</h4>
+        <h4 class="mt-4 mb-2 fw-bold">Featured Pokémon:</h4>
+        <img class="img-fluid" src="/static/sprites/sprites/pokemon/other/official-artwork/{{ id }}.png" alt="{{ name }}">
         <h6>{{ name }}</h6>
-        <p>no. {{ id }}</p>
+        {% if id|int < 10 %}
+            <p>no. 00{{ id }}</p>
+        {% elif id|int < 100 %}
+            <p>no. 0{{ id }}</p>
+        {% else %}
+            <p>no. {{ id }}</p>
+        {% endif %}
+        <br>
+        <h6>{{ stats }}</h6>
     </div>
 {% endblock %}

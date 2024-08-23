@@ -13,6 +13,12 @@
     </div>
     <div class="text-center">
         <h4 class="mt-4 fw-bold">{{ name }}</h4>
-        <p class="small-text">no. {{ id }}</p>
+        {% if id|int < 10 %}
+            <p>no. 00{{ id }}</p>
+        {% elif id|int < 100 %}
+            <p>no. 0{{ id }}</p>
+        {% else %}
+            <p>no. {{ id }}</p>
+        {% endif %}
     </div>
 {% endblock %}
