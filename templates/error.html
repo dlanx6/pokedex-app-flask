@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Error
+{% endblock %}
+
+{% block main %}  
+    {% if get_flashed_messages() %}
+        <div class="flash-message my-5 p-3 text-center" role="alert">
+            <h4>{{ get_flashed_messages() | join(" ") }}</h4>
+        </div>
+    {% else %}
+        <div class="my-5 p-3 text-center">
+            <h4>No Errors found.</h4>
+        </div>
+    {% endif %}
+{% endblock %}
