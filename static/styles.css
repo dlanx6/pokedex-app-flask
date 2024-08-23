@@ -40,3 +40,13 @@ header {
 .custom-width {
     width: 20rem;
 }
+
+/* Custom font size */
+.small-text {
+    font-size: 0.7rem;
+}
+
+.flash-message {
+    background-color: #ff6961;
+    border-radius: 5px;
+}
