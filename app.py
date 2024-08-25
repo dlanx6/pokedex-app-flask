@@ -1,7 +1,7 @@
 import json
 import random
 import requests
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_caching import Cache
 
 
@@ -153,6 +153,9 @@ def generate_random_pokemon_id():
     
 @app.route("/", methods=['GET','POST'])
 def index():
+    # Clear session for new search
+    session.clear()
+    
     random_id = generate_random_pokemon_id()
     random_pokemon_data = get_random_data(random_id)
     random_name = random_pokemon_data["name"].replace("-", " ").title()
@@ -165,7 +168,7 @@ def index():
         pokemon_name_or_id = request.form.get('pokemon')
         
         # Check if input is blank
-        if not pokemon_name_or_id:
+        if not pokemon_name_or_id or pokemon_name_or_id.startswith('0'):
             flash("Invalid input!")
             return render_template("index.html", name=random_name, id=random_ID, stats=random_stats, types=random_types)
               
@@ -178,6 +181,13 @@ def index():
             pokemon_id = pokemon_data["id"]
             stats = pokemon_data["stats"]
             types = pokemon_data["types"]
+            
+            # Session method for storing data 
+            # Sending data with url_for with no params needed, because of session storing (to avoid lengthy URL)
+            session['name'] = name
+            session['pokemon_id'] = pokemon_id
+            session['stats'] = stats
+            session['types'] = types
                 
         except TypeError:
             return redirect("/")
@@ -186,7 +196,7 @@ def index():
             flash("Pokemon not found!")
             return redirect("/")
 
-        return redirect(url_for("search", name=name, id=pokemon_id, stats=stats, types=types))
+        return redirect(url_for("search"))
     
     # GET request
     return render_template("index.html", name=random_name, id=random_ID, stats=random_stats, types=random_types)
@@ -197,7 +207,7 @@ def search():
     if request.method == 'POST':
         pokemon_name_or_id = request.form.get('pokemon')
         
-        if not pokemon_name_or_id:
+        if not pokemon_name_or_id or pokemon_name_or_id.startswith('0'):
             flash("Invalid input!")
             return redirect("/")
             
@@ -221,15 +231,12 @@ def search():
         return render_template("search.html", name=name, id=pokemon_id, stats=stats, types=types)
     
     # GET request
-    name_arg = request.args.get("name")
-    id_arg = request.args.get("id")
-    stats_arg = request.args.getlist("stats")
-    types_arg = request.args.getlist("types")
+    name = session.get('name')
+    pokemon_id = session.get('pokemon_id')
+    stats = session.get('stats', {})
+    types = session.get('types', {})
     
-    stats_args = [json.loads(stat.replace("'", '"')) for stat in stats_arg]
-    types_args = [json.loads(kind.replace("'", '"')) for kind in types_arg]
-    
-    return render_template("search.html", name=name_arg.title(), id=id_arg, stats=stats_args, types=types_args)
+    return render_template("search.html", name=name.title(), id=pokemon_id, stats=stats, types=types)
 
 
 @app.route("/error")
