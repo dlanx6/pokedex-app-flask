@@ -11,14 +11,43 @@
             <button class="button p-1" type="submit">Search</button>
         </form>
     </div>
-    <div class="text-center">
-        <h4 class="mt-4 fw-bold">{{ name }}</h4>
-        {% if id|int < 10 %}
-            <p>no. 00{{ id }}</p>
-        {% elif id|int < 100 %}
-            <p>no. 0{{ id }}</p>
-        {% else %}
-            <p>no. {{ id }}</p>
-        {% endif %}
+    <div class="info-container d-flex gap-3">
+        <div class="box-size card mt-3 p-2 text-white bg-dark text-center">
+            <div>
+                {% if id|int < 10 %}
+                    <h5 class="p-1 fw-bold">{{ name }}</h5>
+                    <h6 class="yellow-color">no. 00{{ id }}</h6>
+                {% elif id|int < 100 %}
+                    <h5 class="p-1 fw-bold">{{ name }}</h5>
+                    <h6 class="yellow-color">no. 0{{ id }}</h6>    
+                {% else %}
+                    <h5 class="p-1 fw-bold">{{ name }}</h5>
+                    <h6 class="yellow-color">no. {{ id }}</h6>
+                {% endif %}
+            </div>
+            <div>
+                <img class="w-100" src="/static/sprites/sprites/pokemon/other/official-artwork/{{ id }}.png" alt="{{ name }}">
+            </div>
+        </div>
+        <div class="card mt-3 p-2 text-white bg-dark text-center">
+            <div>
+                <h5 class="p-1">Stats:</h5>
+                {% for stat in stats %}
+                    <p>{{ stat.stat.name | replace("-", " ") | title() }}</p>
+                    <p>{{ stat.base_stat }}</p>
+                    <div class="stats-bar-border">
+                        <div class="stats-bar bg-success" style="width: {{ (stat.base_stat / 16)|float }}rem;"></div>
+                    </div>
+                {% endfor %}
+            </div> 
+            <div>
+                <h5 class="p-1">Type:</h5>
+                <div class="text-center">
+                {% for type in types %}
+                    <p class="d-inline px-3 py-1 ">{{ type.type.name | capitalize() }}</p>
+                {% endfor %}
+                </div>
+            </div> 
+        </div>
     </div>
 {% endblock %}
