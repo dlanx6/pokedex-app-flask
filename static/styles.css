@@ -41,12 +41,39 @@ header {
     width: 20rem;
 }
 
-/* Custom font size */
-.small-text {
-    font-size: 0.7rem;
-}
-
+/* Styles for flash() */
 .flash-message {
     background-color: #ff6961;
     border-radius: 5px;
+}
+
+.top-margin.info-container {
+    min-width: 50vw;
+    margin-top: 34vh;
+}
+
+.box-size {
+    width: 20vw;
+}
+
+.top-margin {
+    margin-top: 28vh;
+}
+
+.margin-footer {
+    margin-top: 110vh;
+    margin-bottom: 4vh;
+}
+
+.yellow-color {
+    color: #fff300;
+}
+
+.stats-bar {
+    height: 2vh;
+}
+
+.stats-bar-border {
+    border: 0.1rem solid white;
+    width: 15.94rem;
 }
