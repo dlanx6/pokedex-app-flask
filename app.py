@@ -1,10 +1,11 @@
+import json
 import random
 import requests
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_caching import Cache
 
-app = Flask(__name__)
 
+app = Flask(__name__)
 
 
 # Local caching
@@ -80,7 +81,7 @@ def get_data(pokemon_name_or_id):
 # Get pokemon data based on random ID
 def get_random_data(random_number): 
     # API URL for pokemon info
-    base_url = f"https://pokeapi.co/api/v2/pokemon-species/{random_number}"
+    base_url = f"https://pokeapi.co/api/v2/pokemon/{random_number}"
     
     # Generate cache key
     pokemon_data_key = f"pokemon_{random_number}"
@@ -156,6 +157,8 @@ def index():
     random_pokemon_data = get_random_data(random_id)
     random_name = random_pokemon_data["name"].replace("-", " ").title()
     random_ID = random_pokemon_data["id"]
+    random_stats = random_pokemon_data["stats"]
+    random_types = random_pokemon_data["types"]
     
     # POST request
     if request.method == 'POST':
@@ -164,7 +167,7 @@ def index():
         # Check if input is blank
         if not pokemon_name_or_id:
             flash("Invalid input!")
-            return render_template("index.html", name=random_name, id=random_ID)
+            return render_template("index.html", name=random_name, id=random_ID, stats=random_stats, types=random_types)
               
         try: 
             # Fetch API data
@@ -172,7 +175,9 @@ def index():
             
             # Pokemon data
             name = pokemon_data["name"].replace("-", " ").title()
-            id = pokemon_data["id"]
+            pokemon_id = pokemon_data["id"]
+            stats = pokemon_data["stats"]
+            types = pokemon_data["types"]
                 
         except TypeError:
             return redirect("/")
@@ -181,10 +186,10 @@ def index():
             flash("Pokemon not found!")
             return redirect("/")
 
-        return redirect(url_for("search", name=name, id=id))
+        return redirect(url_for("search", name=name, id=pokemon_id, stats=stats, types=types))
     
     # GET request
-    return render_template("index.html", name=random_name, id=random_ID)
+    return render_template("index.html", name=random_name, id=random_ID, stats=random_stats, types=random_types)
 
 
 @app.route("/pokemon", methods=['GET', 'POST'])
@@ -202,7 +207,9 @@ def search():
             
             # Pokemon data
             name = pokemon_data["name"].replace("-", " ").title()
-            id = pokemon_data["id"]
+            pokemon_id = pokemon_data["id"]
+            stats = pokemon_data["stats"]
+            types = pokemon_data["types"]
         
         except TypeError:
             return redirect("/")
@@ -211,12 +218,18 @@ def search():
             flash("Pokemon not found!")
             return redirect("/")
 
-        return render_template("search.html", name=name, id=id)
+        return render_template("search.html", name=name, id=pokemon_id, stats=stats, types=types)
     
     # GET request
-    name_param = request.args.get("name")
-    id_param = request.args.get("id")
-    return render_template("search.html", name=name_param.title(), id=id_param)
+    name_arg = request.args.get("name")
+    id_arg = request.args.get("id")
+    stats_arg = request.args.getlist("stats")
+    types_arg = request.args.getlist("types")
+    
+    stats_args = [json.loads(stat.replace("'", '"')) for stat in stats_arg]
+    types_args = [json.loads(kind.replace("'", '"')) for kind in types_arg]
+    
+    return render_template("search.html", name=name_arg.title(), id=id_arg, stats=stats_args, types=types_args)
 
 
 @app.route("/error")
