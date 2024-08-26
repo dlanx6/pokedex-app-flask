@@ -12,7 +12,7 @@
         </form>
     </div>
     <div class="info-container d-flex gap-3">
-        <div class="box-size card mt-3 p-2 text-white bg-dark text-center">
+        <div class="box-size card pt-2 pb-3 px-3 text-white bg-dark text-center">
             <div>
                 {% if id|int < 10 %}
                     <h5 class="p-1 fw-bold">{{ name }}</h5>
@@ -26,26 +26,25 @@
                 {% endif %}
             </div>
             <div>
-                <img class="w-100" src="/static/sprites/sprites/pokemon/other/official-artwork/{{ id }}.png" alt="{{ name }}">
+                <img class="w-100 mt-1" src="/static/sprites/sprites/pokemon/other/official-artwork/{{ id }}.png" alt="{{ name }}">
             </div>
         </div>
-        <div class="card mt-3 p-2 text-white bg-dark text-center">
+        <div class="card pt-2 pb-3 px-3 text-white bg-dark">
             <div>
-                <h5 class="p-1">Stats:</h5>
+                <h5 class="p-1 text-center">Stats:</h5>
                 {% for stat in stats %}
-                    <p>{{ stat.stat.name | replace("-", " ") | title() }}</p>
-                    <p>{{ stat.base_stat }}</p>
-                    <div class="stats-bar-border">
-                        <div class="stats-bar bg-success" style="width: {{ (stat.base_stat / 16)|float }}rem;"></div>
+                    <p class="m-0">{{ stat.stat.name | replace("-", " ") | title() }}</p>
+                    <div class="stats-bar-border mb-2">
+                        <div class="stats-bar green-color" style="--bar-width: {{ (stat.base_stat / 16)|float }}rem;"></div>
                     </div>
                 {% endfor %}
             </div> 
-            <div>
+            <div class="text-center">
                 <h5 class="p-1">Type:</h5>
-                <div class="text-center">
-                {% for type in types %}
-                    <p class="d-inline px-3 py-1 ">{{ type.type.name | capitalize() }}</p>
-                {% endfor %}
+                <div class="d-flex justify-content-center gap-3">
+                    {% for type in types %}
+                        <p class="pokemon-type fw-bold px-3 py-1 m-0">{{ type.type.name | capitalize() }}</p>
+                    {% endfor %}
                 </div>
             </div> 
         </div>
