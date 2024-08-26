@@ -1,4 +1,3 @@
-import json
 import random
 import requests
 from flask import Flask, flash, redirect, render_template, request, session, url_for
@@ -78,42 +77,6 @@ def get_data(pokemon_name_or_id):
     return pokemon_data
 
 
-# Get pokemon data based on random ID
-def get_random_data(random_number): 
-    # API URL for pokemon info
-    base_url = f"https://pokeapi.co/api/v2/pokemon/{random_number}"
-    
-    # Generate cache key
-    pokemon_data_key = f"pokemon_{random_number}"
-    
-    # Check if data is cached
-    # Return data if already cached
-    cached_data = cache.get(pokemon_data_key)
-    if cached_data:
-        return cached_data
-    
-    try: 
-        # Fetch API data
-        response = requests.get(base_url)
-        response.raise_for_status()
-        random_pokemon_data = response.json()
-            
-    except requests.exceptions.HTTPError:
-        # Handle HTTP errors (e.g., 404 Not Found, 500 Internal Server Error)
-        flash("An error occurred while fetching data. Please try again later.")
-        return redirect("/error")
-            
-    except requests.exceptions.RequestException:
-        # Handle other request-related errors (e.g., network issues)
-        flash("A network error occurred. Please check your connection and try again.")
-        return redirect("/error")
-
-    # Cache the data
-    cache.set(pokemon_data_key, random_pokemon_data)
-    
-    return random_pokemon_data
-
-
 def generate_random_pokemon_id():
     # Generate cache Key
     pokemon_count_key = "pokemon_count"
@@ -148,16 +111,13 @@ def generate_random_pokemon_id():
     # Generate random number based on available count
     random_id = random.randint(1, pokemon_count)
     
-    return random_id
+    return str(random_id)
     
     
 @app.route("/", methods=['GET','POST'])
 def index():
-    # Clear session for new search
-    session.clear()
-    
     random_id = generate_random_pokemon_id()
-    random_pokemon_data = get_random_data(random_id)
+    random_pokemon_data = get_data(random_id)
     random_name = random_pokemon_data["name"].replace("-", " ").title()
     random_ID = random_pokemon_data["id"]
     random_stats = random_pokemon_data["stats"]
@@ -176,11 +136,18 @@ def index():
             # Fetch API data
             pokemon_data = get_data(pokemon_name_or_id)
             
+            if not pokemon_data:
+                raise TypeError("Pokemon not found")
+    
             # Pokemon data
             name = pokemon_data["name"].replace("-", " ").title()
             pokemon_id = pokemon_data["id"]
             stats = pokemon_data["stats"]
             types = pokemon_data["types"]
+            
+            # Clear session for new search
+            if session:
+                session.clear()
             
             # Session method for storing data 
             # Sending data with url_for with no params needed, because of session storing (to avoid lengthy URL)
@@ -190,11 +157,12 @@ def index():
             session['types'] = types
                 
         except TypeError:
-            return redirect("/")
-            
-        except requests.exceptions.RequestException:
             flash("Pokemon not found!")
-            return redirect("/")
+            return render_template("index.html", name=random_name, id=random_ID, stats=random_stats, types=random_types)
+        
+        except requests.exceptions.RequestException:
+            flash("An error occurred while fetching data.")
+            return render_template("index.html", name=random_name, id=random_ID, stats=random_stats, types=random_types)
 
         return redirect(url_for("search"))
     
@@ -213,7 +181,10 @@ def search():
             
         try: 
             # Fetch API data
-            pokemon_data = get_data(pokemon_name_or_id)
+            pokemon_data = get_data(pokemon_name_or_id)           
+            
+            if not pokemon_data:
+                raise TypeError("Pokemon not found")
             
             # Pokemon data
             name = pokemon_data["name"].replace("-", " ").title()
@@ -222,10 +193,11 @@ def search():
             types = pokemon_data["types"]
         
         except TypeError:
+            flash("Pokemon not found!")
             return redirect("/")
             
         except requests.exceptions.RequestException:
-            flash("Pokemon not found!")
+            flash("An error occurred while fetching data.")
             return redirect("/")
 
         return render_template("search.html", name=name, id=pokemon_id, stats=stats, types=types)
