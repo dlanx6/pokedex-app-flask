@@ -6,7 +6,6 @@ from flask_caching import Cache
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = "d0c3a10c3923abff876c99c7a9e432451ac61b279c466cd0"
 
 # Local caching
 app.config["CACHE_TYPE"] = "SimpleCache"
@@ -114,6 +113,7 @@ def generate_random_pokemon_id():
     
     return str(random_id)
     
+
 @app.after_request
 def add_cache_control(response):
     if request.endpoint in ['index', 'search']:
