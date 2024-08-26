@@ -62,7 +62,11 @@ header {
 
 .margin-footer {
     margin-top: 15vh;
-    margin-bottom: 4vh;
+    padding-bottom: 1vh;
+}
+
+footer a {
+    color: #000000;
 }
 
 /* Custom font color*/
@@ -171,6 +175,7 @@ header {
 .water {
     background-color: #6390F0;
 }
+
 
 /* Animation */
 .stats-bar {
