@@ -44,7 +44,7 @@ header {
 /* Styles for flash() */
 .flash-message {
     background-color: #ff6961;
-    border-radius: 5px;
+    border-radius: 0.3rem;
 }
 
 .top-margin.info-container {
@@ -61,12 +61,18 @@ header {
 }
 
 .margin-footer {
-    margin-top: 110vh;
+    margin-top: 15vh;
     margin-bottom: 4vh;
 }
 
+/* Custom font color*/
 .yellow-color {
     color: #fff300;
+}
+
+/* Stats bar color */
+.green-color {
+    background-color: #2eb774;
 }
 
 .stats-bar {
@@ -75,5 +81,110 @@ header {
 
 .stats-bar-border {
     border: 0.1rem solid white;
-    width: 15.94rem;
+    width: 16.13rem; 
 }
+
+.pokemon-type {
+    border-radius: 0.3rem;
+}
+
+/* Colors for pokemon types */
+.bug {
+    background-color: #9BCC50;
+    color: #000000;
+}
+
+.dark {
+    background-color: #6F6E6F;
+}
+
+.dragon {
+    background-color: #6D28D9;
+}
+
+.electric {
+    background-color: #F7D02C;
+    color: #000000;
+}
+
+.fairy {
+    background-color: #D685AD;
+    color: #000000;
+}
+
+.fighting {
+    background-color: #C22E28;
+}
+
+.fire {
+    background-color: #fd7d24;
+    color: #000000;
+}
+
+.flying {
+    background-color: #A98FF3;
+    color: #000000;
+}
+
+.ghost {
+    background-color: #735797;
+}
+
+.grass {
+    background-color: #7AC74C;
+    color: #000000;
+}
+
+.ground {
+    background-color: #E2BF65;
+    color: #000000;
+}
+
+.ice {
+    background-color: #96D9D6;
+    color: #000000;
+}
+
+.normal {
+    background-color: #A8A878;
+    color: #000000;
+}
+
+.poison {
+    background-color: #A33EA1;
+}
+
+.psychic {
+    background-color: #F366A2;
+    color: #000000;
+}
+
+.rock {
+    background-color: #a38c21;
+}
+
+.steel {
+    background-color: #B7B7CE;
+    color: #000000;
+}
+
+.water {
+    background-color: #6390F0;
+}
+
+/* Animation */
+.stats-bar {
+    animation: fillBar 1.8s forwards;
+}
+
+@keyframes fillBar {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: var(--bar-width); 
+    }
+}
+
+
+/* Media Query */
