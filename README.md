@@ -1,9 +1,9 @@
 # Pokédex App with Flask
 
-A simple Pokédex app for browsing Pokémon with PokéAPI.
+A simple Pokédex app for browsing Pokémon with PokéAPI.  
 
 
-> **Note:** Some pokémon names doesn't work, try using Pokémon IDs instead.
+> **Note:** Some pokémon names doesn't work, try using Pokémon IDs instead.  
 
 
 ## Tech Stack
