@@ -17,3 +17,4 @@ Check the Web App here: [LINK](https://pokeflask-jao2.onrender.com)
 - Python
 - Flask
 - PokéAPI
+- Render
