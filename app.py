@@ -1,3 +1,4 @@
+import os
 import random
 import requests
 from flask import Flask, flash, redirect, render_template, request, session, url_for
@@ -6,6 +7,9 @@ from flask_caching import Cache
 
 app = Flask(__name__)
 
+
+SECRET_KEY = os.getenv('SECRET_KEY')
+app.config[SECRET_KEY]
 
 # Local caching
 app.config["CACHE_TYPE"] = "SimpleCache"
