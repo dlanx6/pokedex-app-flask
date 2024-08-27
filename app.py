@@ -8,8 +8,7 @@ from flask_caching import Cache
 app = Flask(__name__)
 
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-app.config[SECRET_KEY]
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 # Local caching
 app.config["CACHE_TYPE"] = "SimpleCache"
