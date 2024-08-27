@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
+
 # Local caching
 app.config["CACHE_TYPE"] = "SimpleCache"
 app.config["CACHE_DEFAULT_TIMEOUT"] = 86400 
@@ -115,13 +116,6 @@ def generate_random_pokemon_id():
     random_id = random.randint(1, pokemon_count)
     
     return str(random_id)
-    
-
-@app.after_request
-def add_cache_control(response):
-    if request.endpoint in ['index', 'search']:
-        response.headers['Cache-Control'] = 'public, max-age=86400'
-    return response   
     
     
 @app.route("/", methods=['GET','POST'])
