@@ -39,7 +39,7 @@ def get_data(pokemon_name_or_id):
                 
         except requests.exceptions.HTTPError:
             # Handle HTTP errors (e.g., 404 Not Found, 500 Internal Server Error)
-            flash("Pokemon not found!")
+            flash("Pokémon not found!")
             return redirect("/")
                 
         except requests.exceptions.RequestException:
@@ -67,7 +67,7 @@ def get_data(pokemon_name_or_id):
             
     except requests.exceptions.HTTPError:
         # Handle HTTP errors (e.g., 404 Not Found, 500 Internal Server Error)
-        flash("Pokemon not found!")
+        flash("Pokémon not found!")
         return redirect("/")
             
     except requests.exceptions.RequestException:
@@ -161,7 +161,7 @@ def index():
             session['types'] = types
                 
         except TypeError:
-            flash("Pokemon not found!")
+            flash("Pokémon not found!")
             return render_template("index.html", name=random_name, id=random_ID, stats=random_stats, types=random_types)
         
         except requests.exceptions.RequestException:
@@ -188,7 +188,7 @@ def search():
             pokemon_data = get_data(pokemon_name_or_id)           
             
             if not pokemon_data:
-                raise TypeError("Pokemon not found")
+                raise TypeError("Pokémon not found")
             
             # Pokemon data
             name = pokemon_data["name"].replace("-", " ").title()
@@ -197,7 +197,7 @@ def search():
             types = pokemon_data["types"]
         
         except TypeError:
-            flash("Pokemon not found!")
+            flash("Pokémon not found!")
             return redirect("/")
             
         except requests.exceptions.RequestException:
@@ -207,10 +207,16 @@ def search():
         return render_template("search.html", name=name, id=pokemon_id, stats=stats, types=types)
     
     # GET request
-    name = session.get('name')
-    pokemon_id = session.get('pokemon_id')
-    stats = session.get('stats', {})
-    types = session.get('types', {})
+    try: 
+        name = session.get('name')
+        pokemon_id = session.get('pokemon_id')
+        stats = session.get('stats', {})
+        types = session.get('types', {})
+        
+    except requests.exceptions.HTTPError:
+        # Handle HTTP errors (e.g., 404 Not Found, 500 Internal Server Error)
+        flash("You need to search a Pokémon!")
+        return redirect("/error")
     
     return render_template("search.html", name=name.title(), id=pokemon_id, stats=stats, types=types)
 
