@@ -191,7 +191,8 @@ footer a {
     }
 }
 
-
+/* Need to practice responsive design (not only Media Query)*/
+/* Practice Mobile-first design */
 /* Media Query */
 @media only screen and (max-width: 768px) {
     .info-container {
@@ -222,21 +223,13 @@ footer a {
     }
 }
 
-@media only screen and (max-width: 500px) {
-    .form {
-        margin: 2rem auto !important;
-    }
-    
+@media only screen and (max-width: 500px) { 
     .margin-footer {
         margin-top: 88vh; 
     }
 }
 
 @media only screen and (max-width: 426px) {
-    .form {
-        margin: 2rem auto !important;
-    }
-    
     .margin-footer {
         margin-top: 80vh; 
     }
@@ -245,10 +238,6 @@ footer a {
 @media only screen and (max-width: 376px) {
     .header {
         padding: 1.5rem !important;
-    }
-
-    .form {
-        margin: 2rem auto;
     }
 
     .card {
