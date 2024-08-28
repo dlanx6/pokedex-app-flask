@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-    <div class="my-5">
+    <div class="form my-5">
         <form class="custom-width d-flex flex-column gap-3" action='/' method="post">
             <input class="bdr-gray form-control w-auto" autocomplete="off" name="pokemon" placeholder="Pokemon name or ID" type="text">
             <button class="button p-1" type="submit">Search</button>
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="card pt-2 pb-3 px-3 text-white bg-dark">
-            <div>
+            <div class="stats-container">
                 <h5 class="p-1 text-center">Stats:</h5>
                 {% for stat in stats %}
                     <p class="m-0">{{ stat.stat.name | replace("-", " ") | title() }}:</p>

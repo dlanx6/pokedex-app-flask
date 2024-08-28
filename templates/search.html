@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block main %}  
-    <div class="my-5">
+    <div class="form my-5">
         <form class="custom-width d-flex flex-column gap-3" action='/pokemon' method="post">
             <input class="bdr-gray form-control w-auto" autocomplete="off" name="pokemon" placeholder="Pokemon name or ID" type="text">
             <button class="button p-1" type="submit">Search</button>
         </form>
     </div>
-    <div class="info-container d-flex gap-3">
+    <div class="top-margin position-absolute info-container d-flex justify-content-center gap-3">
         <div class="box-size card pt-2 pb-3 px-3 text-white bg-dark text-center">
             <div>
                 {% if id|int < 10 %}
@@ -30,10 +30,10 @@
             </div>
         </div>
         <div class="card pt-2 pb-3 px-3 text-white bg-dark">
-            <div>
+            <div class="stats-container">
                 <h5 class="p-1 text-center">Stats:</h5>
                 {% for stat in stats %}
-                    <p class="m-0">{{ stat.stat.name | replace("-", " ") | title() }}</p>
+                    <p class="m-0">{{ stat.stat.name | replace("-", " ") | title() }}:</p>
                     <div class="stats-bar-border mb-2">
                         <div class="stats-bar green-color" style="--bar-width: {{ (stat.base_stat / 16)|float }}rem;"></div>
                     </div>
