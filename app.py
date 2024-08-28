@@ -207,18 +207,17 @@ def search():
         return render_template("search.html", name=name, id=pokemon_id, stats=stats, types=types)
     
     # GET request
-    try: 
-        name = session.get('name')
-        pokemon_id = session.get('pokemon_id')
-        stats = session.get('stats', {})
-        types = session.get('types', {})
-        
-    except requests.exceptions.HTTPError:
-        # Handle HTTP errors (e.g., 404 Not Found, 500 Internal Server Error)
-        flash("You need to search a Pokémon!")
-        return redirect("/error")
+    name = session.get('name')
+    pokemon_id = session.get('pokemon_id')
+    stats = session.get('stats', {})
+    types = session.get('types', {})
     
-    return render_template("search.html", name=name.title(), id=pokemon_id, stats=stats, types=types)
+    # If route is visited first (typed in the URL)
+    try: 
+        return render_template("search.html", name=name.title(), id=pokemon_id, stats=stats, types=types)
+    except AttributeError:
+        flash("You need to search a Pokémon!")
+        return redirect("/")
 
 
 @app.route("/error")
